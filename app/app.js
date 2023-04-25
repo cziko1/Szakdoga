@@ -95,7 +95,7 @@ function create() {
     //Keyboard
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    let fruits = this.physics.add.group({
+    let credits = this.physics.add.group({
         key: "credit",
         repeat: 10,
         setScale: { x: 0.05, y: 0.05 },
@@ -103,7 +103,7 @@ function create() {
 
     })
 
-    fruits.children.iterate((f) => {
+    credits.children.iterate((f) => {
         f.setBounce(Phaser.Math.FloatBetween(0.4, 0.7))
     })
 
@@ -119,16 +119,16 @@ function create() {
 
 
     let platforms = this.physics.add.staticGroup();
-    // platforms.create(600, 400, 'ground').setScale(3, 0.75).refreshBody()
-    // platforms.create(700, 300, 'ground').setScale(3, 0.75).refreshBody();
-    // platforms.create(290, 320, 'ground').setScale(3, 0.75).refreshBody()
+    platforms.create(600, 400, 'block').refreshBody()
+    platforms.create(700, 300, 'block').refreshBody();
+    platforms.create(290, 320, 'block').refreshBody()
     platforms.add(ground);
 
     //add a collision detection 
     this.physics.add.collider(platforms, this.player)
-    this.physics.add.collider(platforms, fruits);
-    this.physics.add.collider(blocks, fruits);
-    this.physics.add.overlap(this.player, fruits, eatFruit, null, this);
+    this.physics.add.collider(platforms, credits);
+    this.physics.add.collider(blocks, credits);
+    this.physics.add.overlap(this.player, credits, eatFruit, null, this);
     this.physics.add.collider(this.player, blocks);
 
 
