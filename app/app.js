@@ -6,7 +6,7 @@ let player_config = {
 let config = {
     type:  Phaser.AUTO,
     scale: {
-        //phaser.Scale.FIT,
+        
         width:  1200,
         height:  720,
     },
@@ -15,7 +15,7 @@ let config = {
         default: 'arcade',
         arcade:{
             gravity:{
-                y: 1000,
+                y: 800,
             },
             //should be true
         }
@@ -119,9 +119,9 @@ function create() {
 
 
     let platforms = this.physics.add.staticGroup();
-    platforms.create(600, 400, 'block').refreshBody()
-    platforms.create(700, 300, 'block').refreshBody();
-    platforms.create(290, 320, 'block').refreshBody()
+    platforms.create(400, 490, 'block').refreshBody()
+    platforms.create(461, 490, 'block').refreshBody();
+    platforms.create(522, 490, 'block').refreshBody()
     platforms.add(ground);
 
     //add a collision detection 
