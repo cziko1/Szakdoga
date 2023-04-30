@@ -1,3 +1,4 @@
+
 const myCustomCanvas = document.createElement('canvas');
 
 myCustomCanvas.id = 'myCustomCanvas';

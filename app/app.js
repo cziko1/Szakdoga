@@ -1,14 +1,14 @@
 let player_config = {
-    player_speed: 950,
-    player_jumpspeed: -730,
+    player_speed: 550,
+    player_jumpspeed: -530,
 }
 
 let config = {
     type:  Phaser.AUTO,
     scale: {
         
-        width:  1200,
-        height:  720,
+        width:  700,
+        height:  412,
     },
     backgroundColor: '#7D9AD8',
     physics:{
@@ -52,16 +52,16 @@ function create() {
 
 
 
-    let ground = this.add.tileSprite(0, H - 48, W, 48, 'ground'); //  begining: 0, H-48 ~ heigh, How many pixels visible 
+    let ground = this.add.tileSprite(0, H-48, W+700, 48, 'ground'); //  begining: 0, H-48 ~ heigh, How many pixels visible 
     ground.setOrigin(0,0); //rigidbody 
     this.physics.add.existing(ground, true);           // ground.body.allowGravity = false; // ground.body.immovable = true;
 
 
-    let eyes = this.add.sprite(755, 330, "eyes").setScale(0.55, 0.55);
+    let eyes = this.add.sprite(550, 330, "eyes").setScale(0.55, 0.55);
     let house = this.add.sprite(350, H - 213, "house").setScale(0.55, 0.55);
-    let tree1 = this.add.sprite(710, H - 174, "tree1").setScale(0.75, 1);
+    let tree1 = this.add.sprite(110, H - 174, "tree1").setScale(0.75, 1);
 
-    this.player = this.physics.add.sprite(40, 90, 'sasuke', 8)
+    this.player = this.physics.add.sprite(4, 9, 'sasuke', 8)
     this.player.setBounce(0.3)
     this.player.setCollideWorldBounds(true);
 
@@ -99,29 +99,31 @@ function create() {
         key: "credit",
         repeat: 10,
         setScale: { x: 0.05, y: 0.05 },
-        setXY: { x: 100, y: 0, stepX: 200 },
+        setXY: { x: 100, y: 0, stepX: 100 },
 
     })
 
     credits.children.iterate((f) => {
-        f.setBounce(Phaser.Math.FloatBetween(0.4, 0.7))
+        f.setBounce(Phaser.Math.FloatBetween(0.2, 0.3)) //pattogas
     })
 
 
     let blocks = this.physics.add.staticGroup();
-    blocks.create(600, 490, "gemBlock").refreshBody();
-    blocks.create(850, 490, "block").refreshBody()
-    blocks.create(910, 490, "gemBlock").refreshBody();
-    blocks.create(967, 490, "block").refreshBody()
-    blocks.create(1027, 490, "gemBlock").refreshBody();
-    blocks.create(1084, 490, "block").refreshBody()
-    blocks.create(967, 350, "gemBlock").refreshBody();
+    blocks.create(100, 270, "gemBlock").refreshBody();
+    blocks.create(155, 270, "gemBlock").refreshBody();
+
+    blocks.create(550, 230, "block").refreshBody()
+    blocks.create(610, 230, "gemBlock").refreshBody()
+    blocks.create(667, 230, "block").refreshBody()
+    blocks.create(727, 230, "gemBlock").refreshBody();
+    blocks.create(784, 230, "block").refreshBody()
+    
 
 
     let platforms = this.physics.add.staticGroup();
-    platforms.create(400, 490, 'block').refreshBody()
-    platforms.create(461, 490, 'block').refreshBody();
-    platforms.create(522, 490, 'block').refreshBody()
+    platforms.create(355, 360, 'block').refreshBody()
+    platforms.create(415, 310, 'block').refreshBody();
+    platforms.create(475, 270, 'block').refreshBody()
     platforms.add(ground);
 
     //add a collision detection 
@@ -136,7 +138,7 @@ function create() {
     this.physics.world.setBounds(0, 0, W, H);
 
     this.cameras.main.startFollow(this.player, true, true);
-    this.cameras.main.setZoom(1.5);
+    this.cameras.main.setZoom(1);
 
 
 }
