@@ -5,15 +5,25 @@ var config = {
     physics: {
         default: 'arcade', //Glacing arcade physics system
         arcade: {
-            gravity: { y: 300 },
+            gravity: {
+                y: 300
+             },
             debug: false
         }
     },
+    
     scene: {
         preload: preload,
         create: create,
-        update: update
+        update: update,
+
     }
+    
+};
+
+var player_config = {
+    player_speed: 500,
+    player_jumpspeed: -350,
 };
 
 
@@ -26,22 +36,50 @@ var score = 0;
 var gameOver = false;
 var scoreText;
 
+//coin audio
+var coinSound;
+var errorSound;
+var bgMusic;
+
 var game = new Phaser.Game(config);
 
 function preload ()
 {
-    this.load.image('sky', 'assets/background.png');
+    this.load.image('background', 'assets/background.png');
     this.load.image('ground', 'assets/platform2.png');
     this.load.image('block2','assets/block5.png');
     this.load.image('coin', 'assets/smallredcoin.png');
     this.load.image('ball', 'assets/smallblade.png');
+    // sprite sheet
     this.load.spritesheet('dude', 'assets/sasuke.png', { frameWidth: 32, frameHeight: 48 });
+
+    //Sounds
+    // background music
+    this.load.audio('bgMusic', ['assets/backgroundmusic.mp3']);
+    //coin sound effect
+    this.load.audio('coinSound',['assets/coin_short.mp3']);
+    //error sound effect
+    this.load.audio('errorSound', ['assets/error.mp3']);
+
 }
 
 function create ()
 {
-    //sky set to size 'setScale(0,0)' move to the origo setOrigin(0,0)
-    this.add.image(0, 0, 'sky').setOrigin(0,0).setScale(1);
+    //background music
+    bgMusic = this.sound.add('bgMusic', {
+        loop: true  //loop the music
+    });
+    // play the music,
+    bgMusic.play();
+    //set the music volume
+    bgMusic.setVolume(0.5);
+    //coin sound
+    this.coinSound = this.sound.add('coinSound');
+    //error sound 
+    this.errorSound = this.sound.add('errorSound');
+
+    //background set to size 'setScale(0,0)' move to the origo setOrigin(0,0)
+    this.add.image(0, 0, 'background').setOrigin(0,0).setScale(1);
 
     //the ground is static , it cannot move
     platforms = this.physics.add.staticGroup();
@@ -105,7 +143,8 @@ function create ()
     scoreText = this.add.text(16, 16, 'score: 0', { 
         fontSize: '16px',
         fill: '#ff0000',
-        });
+    });
+
 
     //Collide the player and the coins
     this.physics.add.collider(player, platforms);
@@ -121,19 +160,20 @@ function create ()
 function update ()
 {
     if (gameOver)
-    {
+    {   
+        bgMusic.stop();
         return;
     }
 
     if (cursors.left.isDown)
     {
-        player.setVelocityX(-160);
+        player.setVelocityX(-player_config.player_speed);
 
         player.anims.play('left', true);
     }
     else if (cursors.right.isDown)
     {
-        player.setVelocityX(160);
+        player.setVelocityX(player_config.player_speed);
 
         player.anims.play('right', true);
     }
@@ -146,12 +186,17 @@ function update ()
 
     if (cursors.up.isDown && player.body.touching.down)
     {
-        player.setVelocityY(-330);
+        player.setVelocityY(player_config.player_jumpspeed);
+        
     }
+
 }
 
 function collectcoin (player, coin)
 {
+    //coin sound
+    this.coinSound.play();
+        
     coin.disableBody(true, true);
 
     // Score updating
@@ -180,6 +225,9 @@ function collectcoin (player, coin)
 
 function hitball (player, ball)
 {
+    //error sound
+    this.errorSound.play();
+
     this.physics.pause();
 
     player.setTint(0xff0000);
