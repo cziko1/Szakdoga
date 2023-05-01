@@ -12,21 +12,21 @@ class Menu extends Phaser.Scene
         this.input.keyboard.once('keyup-ONE', function ()
         {
 
-            this.scene.start('demo', { id: 0, image: '8049563.jpg' });
+            this.scene.start('demo', { id: 0, image: 'background.png' });
 
         }, this);
 
         this.input.keyboard.once('keyup-TWO', function ()
         {
 
-            this.scene.start('demo', { id: 1, image: 'background.jpg' });
+            this.scene.start('demo', { id: 1, image: 'platform.jpg' });
 
         }, this);
 
         this.input.keyboard.once('keyup-THREE', function ()
         {
 
-            this.scene.start('demo', { id: 2, image: 'sky.jpg' });
+            this.scene.start('demo', { id: 2, image: 'blocks.png' });
 
         }, this);
 
