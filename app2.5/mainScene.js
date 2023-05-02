@@ -45,6 +45,7 @@ var errorSound;
 var bgMusic;
 /*game variables: ends*/
 
+
 function preload(){
     this.load.image('bgMenu', 'assets/uchiha_d.jfif');
 };
@@ -61,7 +62,7 @@ function create() {
     title.setOrigin(0.5);
 
     //start button
-    startButton =this.add.text(400, 300, 'start',{
+    startButton =this.add.text(400, 300, 'PLAY',{
         fontSize: '32px',
         fill: '#9A0000'
     });
@@ -71,9 +72,27 @@ function create() {
         this.scene.start('GameScene');
     },this);
 
-    //GameScene things: begin
-    //background music
-    
+    //Control button
+    button =this.add.text(400, 300, 'CONTROL',{
+        fontSize: '32px',
+        fill: '#9A0000'
+    });
+    button.setOrigin(0.5, -1.5);
+    button.setInteractive();
+    button.on('pointerdown', function(){
+        this.scene.start('controlScene');
+    },this);
+
+     // Settings button
+     button =this.add.text(400, 300, 'SETTINGS',{
+        fontSize: '32px',
+        fill: '#9A0000'
+    });
+    button.setOrigin(0.5, -3.5);
+    button.setInteractive();
+    button.on('pointerdown', function(){
+        this.scene.start('settingScene');
+    },this);   
 
 };
 function update(){
@@ -290,8 +309,136 @@ var GameScene = new Phaser.Class({
     
 });
 
+var controlScene = new Phaser.Class({
+
+    Extends: Phaser.Scene,
+
+    initialize:
+
+
+    function GameScene ()
+    {
+        Phaser.Scene.call(this, { key: 'controlScene' });
+    },
+
+    preload: function ()
+    {
+        // Add any assets required for the game scene here
+        this.load.image('bg2', ' assets/bgControl.png');
+    },
+
+    create: function ()
+    {
+        
+        // Add game logic and objects here
+        this.add.image(0,0,'bg2').setOrigin(0).setScale(.325);
+
+        // Back button
+        button =this.add.text(400, 300, 'Back',{
+            fontSize: '32px',
+            fill: '#ffffff'
+        });
+        button.setOrigin(5, 9);
+        button.setInteractive();
+        button.on('pointerdown', function(){
+            window.location.reload();
+        },this);
+
+        title = this.add.text(400, 150, 'Control:\n', {
+            fontSize: '64px',
+            fill: '#ffffff'
+        });
+        title.setOrigin(0.5)
+
+        // Moving: A W S 
+        title = this.add.text(400, 150, 'Moving:\t \n\nLeft: Arrow left\nRight: Arrow Right\nJump: Arrow Up\n',{
+            fontSize: '32px',
+            fill: '#ffffff'
+        });
+        title.setOrigin(0.5, -0.5)
+
+        // Play button
+        button = this.add.text(400, 300, 'PLAY',{
+            fontSize: '32px',
+            fill: '#ffffff'
+        });
+        button.setOrigin(0.5, -5);
+        button.setInteractive();
+        button.on('pointerdown', function(){
+            this.scene.start('GameScene');
+        },this);
+
+
+    }
+});
+
+var settingScene = new Phaser.Class({
+
+    Extends: Phaser.Scene,
+
+    initialize:
+
+
+    function GameScene ()
+    {
+        Phaser.Scene.call(this, { key: 'settingScene' });
+    },
+
+
+    preload: function ()
+    {
+        // Add any assets required for the game scene here
+        this.load.image('bg3', ' assets/bgSettings2.jpg');
+
+    },
+
+    create: function ()
+    {
+        // Add game logic and objects here
+        this.add.image(0,0,'bg3').setOrigin(0).setScale(1);
+
+        //Reaload button
+        button =this.add.text(400, 300, 'back',{
+            fontSize: '32px',
+            fill: '#000000'
+        });
+        button.setOrigin(5,9);
+        button.setInteractive();
+        button.on('pointerdown', function(){
+            window.location.reload();
+        },this);
+
+        //Sound title
+        title = this.add.text(400, 150, 'Sound:',{
+            fontSize: '64px',
+            fill: '#809779'
+        });
+        title.setOrigin(0.5);
+
+        // Slider
+        slider = this.add.container(400, 300);
+
+        bar = this.add.rectangle(0, 0, 200, 16, 0x000000); 
+        control = this.add.circle(0, 0, 12, 0x809779);  
+
+        control.setInteractive({ draggable: true });
+        
+        control.on('drag', function (pointer, dragX, dragY) {
+
+            control.x = Phaser.Math.Clamp(dragX, -100, 100);
+            // console.log(dragX);
+        });
+        
+        slider.add([bar, control]);
+    
+    }
+});
+
 // Add the game scene to the game
 game.scene.add('GameScene', GameScene);
-
+// Add the control scene to the game
+game.scene.add('ControlScene', controlScene);
+// Add the settings scene to the game
+game.scene.add('SettingScene', settingScene);
 // Start the main menu
 game.scene.start('MainScene');
