@@ -10,7 +10,7 @@ var config= {
 
 var game = new Phaser.Game(config);
 
-var startButton;
+var button;
 var title;
 
 function preload(){
@@ -29,47 +29,36 @@ function create() {
     title.setOrigin(0.5);
 
     //start button
-    startButton =this.add.text(400, 300, 'start',{
+    button =this.add.text(400, 300, 'start',{
         fontSize: '32px',
         fill: '#9A0000'
     });
-    startButton.setOrigin(0.5);
-    startButton.setInteractive();
-    startButton.on('pointerdown', function(){
-        this.scene.start('GameScene');
-    },this);
-
-        //start button
-    startButton =this.add.text(400, 300, 'start',{
-        fontSize: '32px',
-        fill: '#9A0000'
-    });
-    startButton.setOrigin(0.5, 0.5);
-    startButton.setInteractive();
-    startButton.on('pointerdown', function(){
+    button.setOrigin(0.5);
+    button.setInteractive();
+    button.on('pointerdown', function(){
         this.scene.start('GameScene');
     },this);
 
     //Other button
-    startButton =this.add.text(400, 300, 'other',{
+    button =this.add.text(400, 300, 'Control',{
         fontSize: '32px',
         fill: '#9A0000'
     });
-    startButton.setOrigin(0.5, -0.5);
-    startButton.setInteractive();
-    startButton.on('pointerdown', function(){
-        this.scene.start('OtherScene');
+    button.setOrigin(0.5, -1.5);
+    button.setInteractive();
+    button.on('pointerdown', function(){
+        this.scene.start('controlScene');
     },this);
 
-    //Another button
-    startButton =this.add.text(400, 300, 'another',{
+    //Another buttona
+    button =this.add.text(400, 300, 'Settings',{
         fontSize: '32px',
         fill: '#9A0000'
     });
-    startButton.setOrigin(0.5, -1.5);
-    startButton.setInteractive();
-    startButton.on('pointerdown', function(){
-        this.scene.start('AnotherScene');
+    button.setOrigin(0.5, -3.5);
+    button.setInteractive();
+    button.on('pointerdown', function(){
+        this.scene.start('settingScene');
     },this);
 }
 
@@ -96,10 +85,21 @@ var GameScene = new Phaser.Class({
     {
         // Add game logic and objects here
         this.add.image(0,0,'bg').setOrigin(0,0);
+
+        //Reaload button
+        button =this.add.text(400, 300, 'back',{
+            fontSize: '32px',
+            fill: '#ffffff'
+        });
+        button.setOrigin(0.5);
+        button.setInteractive();
+        button.on('pointerdown', function(){
+            window.location.reload();
+        },this);
     }
 });
-// Define OtherScene
-var OtherScene = new Phaser.Class({
+// Define controlScene
+var controlScene = new Phaser.Class({
 
     Extends: Phaser.Scene,
 
@@ -108,7 +108,7 @@ var OtherScene = new Phaser.Class({
 
     function GameScene ()
     {
-        Phaser.Scene.call(this, { key: 'OtherScene' });
+        Phaser.Scene.call(this, { key: 'controlScene' });
     },
 
     preload: function ()
@@ -119,12 +119,25 @@ var OtherScene = new Phaser.Class({
 
     create: function ()
     {
+        
         // Add game logic and objects here
         this.add.image(0,0,'bg2').setOrigin(0,-0.1).setScale(0.2);
+
+                //start button
+                button =this.add.text(400, 300, 'game',{
+                    fontSize: '32px',
+                    fill: '#ffffff'
+                });
+                button.setOrigin(0.5);
+                button.setInteractive();
+                button.on('pointerdown', function(){
+                    this.scene.start('GameScene')
+                },this);
+
     }
 });
 // Define Another 
-var AnotherScene = new Phaser.Class({
+var settingScene = new Phaser.Class({
 
     Extends: Phaser.Scene,
 
@@ -133,13 +146,14 @@ var AnotherScene = new Phaser.Class({
 
     function GameScene ()
     {
-        Phaser.Scene.call(this, { key: 'AnotherScene' });
+        Phaser.Scene.call(this, { key: 'settingScene' });
     },
 
     preload: function ()
     {
         // Add any assets required for the game scene here
         this.load.image('bg3', ' assets/background3.jpg');
+
     },
 
     create: function ()
@@ -150,8 +164,8 @@ var AnotherScene = new Phaser.Class({
 });
 // Add the game scene to the game, the Other and Another
 game.scene.add('GameScene', GameScene);
-game.scene.add('OtherScene', OtherScene);
-game.scene.add('OtherScene', AnotherScene);
+game.scene.add('controlScene', controlScene);
+game.scene.add('controlScene', settingScene);
 
 // Start the main menu
 game.scene.start('MainScene');
