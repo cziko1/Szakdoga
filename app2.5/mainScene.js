@@ -27,7 +27,7 @@ var title;
 
 var player_config = {
     player_speed: 500,
-    player_jumpspeed: -355,
+    player_jumpspeed: -357,
 };
 
 var player;
@@ -55,44 +55,47 @@ function create() {
     this.add.image(0,0,'bgMenu').setOrigin(0.075, 0).setScale(1.55,1.8);
 
     //Add title
-    title = this.add.text(400,150, 'My Game', {
-        fontSize: '64px',
-        fill: '#9A0000'
+    title = this.add.text(400,150, 'Uchiha Sasuke: The Game', {
+        fontSize: '64px Arial',
     });
+    title.setTint(0xff00ff, 0xffff00, 0x0000ff, 0xff0000)
     title.setOrigin(0.5);
 
     //start button
     startButton =this.add.text(400, 300, 'PLAY',{
-        fontSize: '32px',
-        fill: '#9A0000'
+        fontSize: '32px Arial',
+        fill: '#ffffff'
     });
     startButton.setOrigin(0.5);
     startButton.setInteractive();
     startButton.on('pointerdown', function(){
         this.scene.start('GameScene');
     },this);
+    startButton.setTint(0xff00ff, 0xffff00, 0x0000ff, 0xff0000)   
 
     //Control button
     button =this.add.text(400, 300, 'CONTROL',{
-        fontSize: '32px',
-        fill: '#9A0000'
+        fontSize: '32px Arial',
+        fill: '#ffffff'
     });
     button.setOrigin(0.5, -1.5);
     button.setInteractive();
     button.on('pointerdown', function(){
         this.scene.start('controlScene');
     },this);
+    button.setTint(0xff00ff, 0xffff00, 0x0000ff, 0xff0000)   
 
      // Settings button
      button =this.add.text(400, 300, 'SETTINGS',{
-        fontSize: '32px',
-        fill: '#9A0000'
+        fontSize: '32px Arial',
+        fill: '#ffffff'
     });
     button.setOrigin(0.5, -3.5);
     button.setInteractive();
     button.on('pointerdown', function(){
         this.scene.start('settingScene');
-    },this);   
+    },this);
+    button.setTint(0xff00ff, 0xffff00, 0x0000ff, 0xff0000)   
 
 };
 function update(){
@@ -125,7 +128,6 @@ function collectcoin (player, coin)
         ball.setCollideWorldBounds(true);
         ball.setVelocity(Phaser.Math.Between(-200, 200), 20);
         ball.allowGravity = false;
-
     }
 }
 
@@ -164,7 +166,7 @@ var GameScene = new Phaser.Class({
         this.load.image('ground', 'assets/platform2.png');
         this.load.image('block2','assets/block5.png');
         this.load.image('coin', 'assets/smallredcoin.png');
-        this.load.image('ball', 'assets/smallblade.png');
+        this.load.image('ball', 'assets/kunai.png');
         // sprite sheet
         this.load.spritesheet('dude', 'assets/sasuke.png', { frameWidth: 32, frameHeight: 48 });
     
@@ -273,27 +275,15 @@ var GameScene = new Phaser.Class({
         },this);
 
         /**Realod button end */
-
         //Collide the player and the coins
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(coins, platforms);
-        this.physics.add.collider(balls, platforms);
+        this.physics.add.collider(balls, platforms)
 
         //  Checks to see if the player overlaps with any of the coins, if he does call the collectcoin function
         this.physics.add.overlap(player, coins, collectcoin, null, this);
 
         this.physics.add.collider(player, balls, hitball, null, this);
-
-        
-        button =this.add.text(80,570, 'Retry',{
-            fontSize:'20px',
-            fill: '#ffffff'
-        });
-        button.setInteractive();
-        button.on('pointerdown',function(){
-            this.scene.resume('GameScene');
-            this.scene.stop()
-        },this)
 
 
     },
