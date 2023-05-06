@@ -261,6 +261,18 @@ var GameScene = new Phaser.Class({
             fill: '#ff0000',
         });
 
+        /**Reload button begin */
+        //Back button (reload)
+        button =this.add.text(16, 570, 'Back',{
+            fontSize: '20px',
+            fill: '#ffffff'
+        });
+        button.setInteractive();
+        button.on('pointerdown', function(){
+            window.location.reload();
+        },this);
+
+        /**Realod button end */
 
         //Collide the player and the coins
         this.physics.add.collider(player, platforms);
@@ -271,6 +283,19 @@ var GameScene = new Phaser.Class({
         this.physics.add.overlap(player, coins, collectcoin, null, this);
 
         this.physics.add.collider(player, balls, hitball, null, this);
+
+        
+        button =this.add.text(80,570, 'Retry',{
+            fontSize:'20px',
+            fill: '#ffffff'
+        });
+        button.setInteractive();
+        button.on('pointerdown',function(){
+            this.scene.resume('GameScene');
+            this.scene.stop()
+        },this)
+
+
     },
 
     update: function()
