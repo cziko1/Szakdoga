@@ -39,7 +39,11 @@ var platforms;
 var cursors;
 var score = 0;
 var gameOver = false;
+var gameOverTxt;
 var scoreText;
+
+var restButton;
+var restTxt;
 
 //coin audio
 var coinSound;
@@ -52,6 +56,7 @@ function preload()
 {
     this.load.image('bgMenu', 'assets/uchiha_d.jfif');
     this.load.audio('music', ['assets/backgroundmusic.mp3']);
+    this.load.audio('click', ['assets/click.mp3']);
 
 };
 
@@ -79,6 +84,7 @@ function create()
     startBT.setInteractive();
     startBT.on('pointerdown', function(){
         this.scene.start('GameScene');
+        this.sound.add('click').play();
     },this);  
 
     button =this.add.text(400, 300, 'PLAY',{
@@ -94,6 +100,7 @@ function create()
     controlBT.setInteractive();
     controlBT.on('pointerdown', function(){
         this.scene.start('controlScene');
+        this.sound.add('click').play();
     },this);
 
     button =this.add.text(400, 300, 'CONTROL',{
@@ -109,6 +116,8 @@ function create()
     settingBT.setInteractive();
     settingBT.on('pointerdown', function(){
         this.scene.start('settingScene');
+        this.sound.add('click').play();
+
     },this);
 
      button =this.add.text(400, 300, 'SETTINGS',{
@@ -166,6 +175,7 @@ function hitball (player, ball)
     player.anims.play('turn');
 
     gameOver = true;
+
 }
 
 // Define GameScene
@@ -277,8 +287,52 @@ var GameScene = new Phaser.Class({
             fontSize: '16px',
             fill: '#ff0000',
         });
+        // The Game Over text 
+        gameOverTxt = this.add.text(400, 300, 'Game Over!', {
+            fontSize: '64px Arial',
+            fill: '#ffffff' 
+        });
+        gameOverTxt.setOrigin(0.5);
+        gameOverTxt.setVisible(false);
 
-        /**Reload button begin */
+        // Scene restast Button aftor Game Over
+
+        restButton = this.add.rectangle(400, 370, 100, 30, 0x000000, 0.5);
+        restButton.setInteractive();
+        restButton.on('pointerdown',function(){
+            this.scene.restart(GameScene);
+        },this);
+        restButton.setVisible(false);
+        restTxt = this.add.text(400, 360, 'restart',{
+            fontSize: '20px',
+            fill: '#ffffff'
+        });
+        restTxt.setOrigin(0.5,0);
+        restTxt.setVisible(false);
+        
+        // Pause Button
+        const pauseBT = this.add.rectangle(215, 580, 70, 20, 0x000000,0.50);
+        button =this.add.text(190, 572, 'Pause',{
+            fontSize: '16px',
+            fill: '#ffffff'
+        });
+        button.setInteractive();
+        button.on('pointerdown', function(){
+            this.scene.pause();
+            this.sound.add('click').play();
+        },this);
+
+        const resumeBT = this.add.rectangle(300, 580, 80, 20, 0x000000,0.50);
+        button =this.add.text(272, 572, 'Resume',{
+            fontSize: '16px',
+            fill: '#ffffff'
+        });
+        button.setInteractive();
+        button.on('pointerdown', function(){
+            this.scene.resume();
+            this.sound.add('click').play();
+        },this);
+
         //Back button (reload)
         const backBG = this.add.rectangle(35, 580, 50, 20, 0x000000, 0.50);
 
@@ -288,21 +342,23 @@ var GameScene = new Phaser.Class({
         });
         button.setInteractive();
         button.on('pointerdown', function(){
+            this.scene.pause();
             window.location.reload();
         },this);
-        /** Realod button end */
+        
         /** Settings Button */
-        // Settings button
         const settingBT = this.add.rectangle(120, 580, 100, 20, 0x000000,0.50);
         settingBT.setInteractive();
         settingBT.on('pointerdown', function(){
             this.scene.start('settingScene');
+            this.sound.add('click').play();
         },this);
 
         button =this.add.text(80, 572, 'Settings',{
             fontSize: '16px',
             fill: '#ffffff'
         });
+
         /**
          *  The add music Slider
          */        
@@ -327,6 +383,7 @@ var GameScene = new Phaser.Class({
             fill: '#ffffff'
         });
         /** Music slider end */
+
            
         //Collide the player and the coins
         this.physics.add.collider(player, platforms);
@@ -346,6 +403,10 @@ var GameScene = new Phaser.Class({
     if (gameOver)
         {   
             bgMusic.stop();
+            gameOverTxt.visible = true;
+            restTxt.visible = true;
+            restButton.visible = true;
+            
             return;
         }
 
@@ -384,7 +445,7 @@ var controlScene = new Phaser.Class({
     initialize:
 
 
-    function GameScene ()
+    function controlScene ()
     {
         Phaser.Scene.call(this, { key: 'controlScene' });
     },
@@ -406,6 +467,7 @@ var controlScene = new Phaser.Class({
         backBT.setInteractive();
         backBT.on('pointerdown', function(){
             window.location.reload();
+            this.sound.add('click').play();
         },this);
 
         button =this.add.text(400, 300, 'BACK',{
@@ -428,11 +490,11 @@ var controlScene = new Phaser.Class({
         title.setOrigin(0.5, -0.5)
 
         // Play button
-
         const playBT = this.add.rectangle(400,465, 100, 45,0x000000 ,0.30);
         playBT.setInteractive();
         playBT.on('pointerdown', function(){
             this.scene.start('GameScene');
+            this.sound.add('click').play();
         },this);
 
         button = this.add.text(400, 300, 'PLAY',{
@@ -451,7 +513,7 @@ var settingScene = new Phaser.Class({
     initialize:
 
 
-    function GameScene ()
+    function settingScene ()
     {
         Phaser.Scene.call(this, { key: 'settingScene' });
     },
@@ -476,6 +538,7 @@ var settingScene = new Phaser.Class({
         backBT.setInteractive();
         backBT.on('pointerdown', function(){
             window.location.reload();
+            this.sound.add('click').play();
         },this);
 
         button =this.add.text(400, 300, 'BACK',{
@@ -513,6 +576,7 @@ var settingScene = new Phaser.Class({
         startBT.setInteractive();
         startBT.on('pointerdown', function(){
             this.scene.start('GameScene');
+            this.sound.add('click').play();
         },this);  
 
         button =this.add.text(370, 337, 'PLAY',{
