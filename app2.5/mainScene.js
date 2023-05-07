@@ -5,13 +5,15 @@ var config= {
     physics: {
         default: 'arcade', //Glacing arcade physics system
         arcade: {
-            gravity: {
+            gravity: 
+            {
                 y: 350
-             },
+            },
             debug: false
         }
     },
-    scene:{
+    scene:
+    {
         preload: preload,
         create: create,
         update: update
@@ -20,7 +22,7 @@ var config= {
 
 var game = new Phaser.Game(config);
 
-var startButton;
+var button;
 var title;
 
 /*game variables: begin*/
@@ -46,59 +48,74 @@ var bgMusic;
 /*game variables: ends*/
 
 
-function preload(){
+function preload()
+{
     this.load.image('bgMenu', 'assets/uchiha_d.jfif');
 };
 
-function create() {
+function create() 
+{
     //background image
     this.add.image(0,0,'bgMenu').setOrigin(0.075, 0).setScale(1.55,1.8);
 
+    const rectangleBG = this.add.rectangle(400,300, 800,600, 0x00000, 0.20);
+    
     //Add title
     title = this.add.text(400,150, 'Uchiha Sasuke: The Game', {
         fontSize: '64px Arial',
     });
     title.setTint(0xff00ff, 0xffff00, 0x0000ff, 0xff0000)
     title.setOrigin(0.5);
-
+    title.setShadow(2,2, '#333333', 2, false, true);
+    
     //start button
-    startButton =this.add.text(400, 300, 'PLAY',{
-        fontSize: '32px Arial',
-        fill: '#ffffff'
-    });
-    startButton.setOrigin(0.5);
-    startButton.setInteractive();
-    startButton.on('pointerdown', function(){
+    const startBT = this.add.rectangle(400,300, 200,50,0xff00ff, 0.30);
+    startBT.setInteractive();
+    startBT.on('pointerdown', function(){
         this.scene.start('GameScene');
-    },this);
-    startButton.setTint(0xff00ff, 0xffff00, 0x0000ff, 0xff0000)   
+    },this);  
+
+    button =this.add.text(400, 300, 'PLAY',{
+        fontSize: '32px Arial',
+        fill: '#ffffff'      
+    });
+    button.setShadow(2,2, '#333333', 2, false, true); //text shadow
+    button.setOrigin(0.5);
+    button.setTint(0xff00ff, 0xffff00, 0x0000ff, 0xff0000)   
 
     //Control button
+    const controlBT = this.add.rectangle(400,370, 200,50,0xff00ff, 0.30);
+    controlBT.setInteractive();
+    controlBT.on('pointerdown', function(){
+        this.scene.start('controlScene');
+    },this);
+
     button =this.add.text(400, 300, 'CONTROL',{
         fontSize: '32px Arial',
         fill: '#ffffff'
     });
+    button.setShadow(2,2, '#333333', 2, false, true); //text shadow
     button.setOrigin(0.5, -1.5);
-    button.setInteractive();
-    button.on('pointerdown', function(){
-        this.scene.start('controlScene');
-    },this);
     button.setTint(0xff00ff, 0xffff00, 0x0000ff, 0xff0000)   
 
      // Settings button
+    const settingBT = this.add.rectangle(400, 440, 200, 50, 0xff00ff,0.30);
+    settingBT.setInteractive();
+    settingBT.on('pointerdown', function(){
+        this.scene.start('settingScene');
+    },this);
+
      button =this.add.text(400, 300, 'SETTINGS',{
         fontSize: '32px Arial',
         fill: '#ffffff'
     });
-    button.setOrigin(0.5, -3.5);
-    button.setInteractive();
-    button.on('pointerdown', function(){
-        this.scene.start('settingScene');
-    },this);
+    button.setOrigin(0.5, -3.55);
+    button.setShadow(2,2, '#333333', 2, false, true); //text shadow
     button.setTint(0xff00ff, 0xffff00, 0x0000ff, 0xff0000)   
 
 };
-function update(){
+function update()
+{
     
 };
 function collectcoin (player, coin)
@@ -432,8 +449,9 @@ var settingScene = new Phaser.Class({
 
         // Slider
         slider = this.add.container(400, 300);
-
-        bar = this.add.rectangle(0, 0, 200, 16, 0x000000); 
+                
+        bar = this.add.rectangle(0, 0, 200, 16,0x000000, 0.5); 
+        
         control = this.add.circle(0, 0, 12, 0x809779);  
 
         control.setInteractive({ draggable: true });
