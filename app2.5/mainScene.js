@@ -51,10 +51,16 @@ var bgMusic;
 function preload()
 {
     this.load.image('bgMenu', 'assets/uchiha_d.jfif');
+    this.load.audio('music', ['assets/backgroundmusic.mp3']);
+
 };
 
 function create() 
 {
+    bgMusic = this.sound.add('music',{
+        loop: true
+    });
+    bgMusic.play();
     //background image
     this.add.image(0,0,'bgMenu').setOrigin(0.075, 0).setScale(1.55,1.8);
 
@@ -122,7 +128,7 @@ function collectcoin (player, coin)
 {
     //coin sound
     this.coinSound.play();
-        
+    this.coinSound.setVolume(0.5)
     coin.disableBody(true, true);
 
     // Score updating
@@ -189,7 +195,7 @@ var GameScene = new Phaser.Class({
     
         //Sounds
         // background music
-        this.load.audio('bgMusic', ['assets/backgroundmusic.mp3']);
+        /**this.load.audio('bgMusic', ['assets/backgroundmusic.mp3']);*/
         //coin sound effect
         this.load.audio('coinSound',['assets/coin_short.mp3']);
         //error sound effect
@@ -200,14 +206,6 @@ var GameScene = new Phaser.Class({
     create: function ()
     {
         // Add game logic and objects here
-        //background music
-        bgMusic = this.sound.add('bgMusic', {
-            loop: true  //loop the music
-        });
-        // play the music,
-        bgMusic.play();
-        //set the music volume
-        bgMusic.setVolume(0.5);
         //coin sound
         this.coinSound = this.sound.add('coinSound');
         //error sound 
@@ -290,8 +288,29 @@ var GameScene = new Phaser.Class({
         button.on('pointerdown', function(){
             window.location.reload();
         },this);
-
         /**Realod button end */
+        /**
+         *  The add music Slider
+         */
+        
+        
+        const slider = this.add.container(700, 580);
+        let bar = this.add.rectangle(0, 0, 20, 8,0x000000); 
+        const control = this.add.circle(0, 0, 6, 0x809779);  
+
+        control.setInteractive({ draggable: true });
+        
+        control.on('drag', function (pointer, dragX, dragY) {
+
+            control.x = Phaser.Math.Clamp(dragX, -10, 10);
+            var volume = (control.x + 10) /20;
+            bgMusic.setVolume(volume);
+            // console.log(dragX);
+        });
+        slider.add([bar, control]);
+        /** Music slider end */
+        
+   
         //Collide the player and the coins
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(coins, platforms);
@@ -361,7 +380,6 @@ var controlScene = new Phaser.Class({
 
     create: function ()
     {
-        
         // Add game logic and objects here
         this.add.image(0,0,'bg2').setOrigin(0).setScale(.325);
 
@@ -426,10 +444,12 @@ var settingScene = new Phaser.Class({
         // Add any assets required for the game scene here
         this.load.image('bg3', ' assets/bgSettings2.jpg');
 
+
     },
 
     create: function ()
     {
+
         // Add game logic and objects here
         this.add.image(0,0,'bg3').setOrigin(0).setScale(1);
 
@@ -450,12 +470,11 @@ var settingScene = new Phaser.Class({
             fontSize: '64px Arial',
         });
         soundTXT.setTint(0x809779);
-        soundTXT.setShadow(2,2, '#333333', 2, false, true)
+        soundTXT.setShadow(2,2, '#333333', 2, false, true);
 
         // Slider
         let bar2 = this.add.rectangle(400, 300, 215, 30, 0xffffff, 0.5);   // Just decoration      
         const slider = this.add.container(400, 300);
-                
         let bar = this.add.rectangle(0, 0, 200, 16,0x000000); 
         const control = this.add.circle(0, 0, 12, 0x809779);  
 
@@ -464,10 +483,12 @@ var settingScene = new Phaser.Class({
         control.on('drag', function (pointer, dragX, dragY) {
 
             control.x = Phaser.Math.Clamp(dragX, -100, 100);
+            var volume = (control.x + 100) /200;
+            bgMusic.setVolume(volume);
             // console.log(dragX);
         });
 
-        slider.add([bar, control]);
+        slider.add([bar, control])
     
     }
 });
