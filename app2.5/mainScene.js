@@ -280,23 +280,36 @@ var GameScene = new Phaser.Class({
 
         /**Reload button begin */
         //Back button (reload)
-        button =this.add.text(16, 570, 'Back',{
-            fontSize: '20px',
+        const backBG = this.add.rectangle(35, 580, 50, 20, 0x000000, 0.50);
+
+        button =this.add.text(16, 572, 'Back',{
+            fontSize: '16px',
             fill: '#ffffff'
         });
         button.setInteractive();
         button.on('pointerdown', function(){
             window.location.reload();
         },this);
-        /**Realod button end */
+        /** Realod button end */
+        /** Settings Button */
+        // Settings button
+        const settingBT = this.add.rectangle(120, 580, 100, 20, 0x000000,0.50);
+        settingBT.setInteractive();
+        settingBT.on('pointerdown', function(){
+            this.scene.start('settingScene');
+        },this);
+
+        button =this.add.text(80, 572, 'Settings',{
+            fontSize: '16px',
+            fill: '#ffffff'
+        });
         /**
          *  The add music Slider
-         */
-        
-        
-        const slider = this.add.container(700, 580);
-        let bar = this.add.rectangle(0, 0, 20, 8,0x000000); 
-        const control = this.add.circle(0, 0, 6, 0x809779);  
+         */        
+        const sliderBG = this.add.rectangle(700,580, 100, 20, 0x000000, 0.50);
+        const slider = this.add.container(735, 580);
+        let bar = this.add.rectangle(0, 0, 20, 10,0x707070); 
+        const control = this.add.circle(0, 0, 7, 0xCD1000);  
 
         control.setInteractive({ draggable: true });
         
@@ -308,9 +321,13 @@ var GameScene = new Phaser.Class({
             // console.log(dragX);
         });
         slider.add([bar, control]);
+
+        button = this.add.text(658,572, 'Sound:',{
+            fontSize: '16px',
+            fill: '#ffffff'
+        });
         /** Music slider end */
-        
-   
+           
         //Collide the player and the coins
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(coins, platforms);
@@ -411,6 +428,7 @@ var controlScene = new Phaser.Class({
         title.setOrigin(0.5, -0.5)
 
         // Play button
+
         const playBT = this.add.rectangle(400,465, 100, 45,0x000000 ,0.30);
         playBT.setInteractive();
         playBT.on('pointerdown', function(){
@@ -473,6 +491,7 @@ var settingScene = new Phaser.Class({
         soundTXT.setShadow(2,2, '#333333', 2, false, true);
 
         // Slider
+
         let bar2 = this.add.rectangle(400, 300, 215, 30, 0xffffff, 0.5);   // Just decoration      
         const slider = this.add.container(400, 300);
         let bar = this.add.rectangle(0, 0, 200, 16,0x000000); 
@@ -489,6 +508,20 @@ var settingScene = new Phaser.Class({
         });
 
         slider.add([bar, control])
+
+        const startBT = this.add.rectangle(400,350, 100, 35,0x809779, 0.50);
+        startBT.setInteractive();
+        startBT.on('pointerdown', function(){
+            this.scene.start('GameScene');
+        },this);  
+
+        button =this.add.text(370, 337, 'PLAY',{
+            fontSize: '24px Arial',
+            fill: '#ffffff'      
+        });
+        button.setShadow(2,2, '#333333', 2, false, true); //text shadow
+
+
     
     }
 });

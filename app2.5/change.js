@@ -13,7 +13,7 @@ class Example extends Phaser.Scene
             loop: true
         });
         music.play();
-
+        music.setVolume(.2);
         this.add.image(400, 300, 'bg');
 
         const gameboy = this.physics.add.image(200, 300, 'gameboy')
@@ -46,6 +46,15 @@ class Example extends Phaser.Scene
         });
 
         slider.add([bar, control]);
+
+        const sliderBG = this.add.rectangle(700,580, 100,20, 0xff00ff, 0.50);
+        button =this.add.text(400, 300, 'PLAY',{
+            fontSize: '32px Arial',
+            fill: '#ffffff'      
+        }); 
+        button.setShadow(2,2, '#333333', 2, false, true); //text shadow
+        button.setOrigin(0.5);
+        button.setTint(0xff00ff, 0xffff00, 0x0000ff, 0xff0000) 
 
     }
 
