@@ -366,15 +366,18 @@ var controlScene = new Phaser.Class({
         this.add.image(0,0,'bg2').setOrigin(0).setScale(.325);
 
         // Back button
-        button =this.add.text(400, 300, 'Back',{
+        
+        const backBT = this.add.rectangle(55, 45, 100, 40, 0x000000, 0.30);
+        backBT.setInteractive();
+        backBT.on('pointerdown', function(){
+            window.location.reload();
+        },this);
+
+        button =this.add.text(400, 300, 'BACK',{
             fontSize: '32px',
             fill: '#ffffff'
         });
         button.setOrigin(5, 9);
-        button.setInteractive();
-        button.on('pointerdown', function(){
-            window.location.reload();
-        },this);
 
         title = this.add.text(400, 150, 'Control:\n', {
             fontSize: '64px',
@@ -390,16 +393,17 @@ var controlScene = new Phaser.Class({
         title.setOrigin(0.5, -0.5)
 
         // Play button
+        const playBT = this.add.rectangle(400,465, 100, 45,0x000000 ,0.30);
+        playBT.setInteractive();
+        playBT.on('pointerdown', function(){
+            this.scene.start('GameScene');
+        },this);
+
         button = this.add.text(400, 300, 'PLAY',{
             fontSize: '32px',
             fill: '#ffffff'
         });
         button.setOrigin(0.5, -5);
-        button.setInteractive();
-        button.on('pointerdown', function(){
-            this.scene.start('GameScene');
-        },this);
-
 
     }
 });
@@ -430,29 +434,30 @@ var settingScene = new Phaser.Class({
         this.add.image(0,0,'bg3').setOrigin(0).setScale(1);
 
         //Reaload button
-        button =this.add.text(400, 300, 'back',{
-            fontSize: '32px',
-            fill: '#000000'
-        });
-        button.setOrigin(5,9);
-        button.setInteractive();
-        button.on('pointerdown', function(){
+        const backBT = this.add.rectangle(55, 45, 100, 40, 0x000000, 0.30);
+        backBT.setInteractive();
+        backBT.on('pointerdown', function(){
             window.location.reload();
         },this);
 
-        //Sound title
-        title = this.add.text(400, 150, 'Sound:',{
-            fontSize: '64px',
-            fill: '#809779'
+        button =this.add.text(400, 300, 'BACK',{
+            fontSize: '32px',
+            fill: '#ffffff'
         });
-        title.setOrigin(0.5);
+        button.setOrigin(5, 9);
+
+        const soundTXT = this.add.text(300, 200, 'Sound:', {
+            fontSize: '64px Arial',
+        });
+        soundTXT.setTint(0x809779);
+        soundTXT.setShadow(2,2, '#333333', 2, false, true)
 
         // Slider
-        slider = this.add.container(400, 300);
+        let bar2 = this.add.rectangle(400, 300, 215, 30, 0xffffff, 0.5);   // Just decoration      
+        const slider = this.add.container(400, 300);
                 
-        bar = this.add.rectangle(0, 0, 200, 16,0x000000, 0.5); 
-        
-        control = this.add.circle(0, 0, 12, 0x809779);  
+        let bar = this.add.rectangle(0, 0, 200, 16,0x000000); 
+        const control = this.add.circle(0, 0, 12, 0x809779);  
 
         control.setInteractive({ draggable: true });
         
@@ -461,7 +466,7 @@ var settingScene = new Phaser.Class({
             control.x = Phaser.Math.Clamp(dragX, -100, 100);
             // console.log(dragX);
         });
-        
+
         slider.add([bar, control]);
     
     }
