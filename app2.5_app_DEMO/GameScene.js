@@ -1,71 +1,3 @@
-var player_config = {
-    player_speed: 500,
-    player_jumpspeed: -357,
-};
-
-var player;
-var coins;
-var balls;
-var platforms;
-var cursors;
-var score = 0;
-var gameOver = false;
-var gameOverTxt;
-var scoreText;
-
-var restButton;
-var restTxt;
-
-//coin audio
-var coinSound;
-var errorSound;
-
-function collectcoin (player, coin)
-{
-    //coin sound
-    this.coinSound.play();
-    this.coinSound.setVolume(0.5)
-    coin.disableBody(true, true);
-
-    // Score updating
-    score += 1;
-    scoreText.setText('Score: ' + score);
-
-    if (coins.countActive(true) === 0)
-    {
-        //  A new batch of coins to collect
-        coins.children.iterate(function (child) {
-
-            child.enableBody(true, child.x, 0, true, true);
-
-        });
-
-        var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-
-        var ball = balls.create(x, 16, 'ball');
-        ball.setBounce(1);
-        ball.setCollideWorldBounds(true);
-        ball.setVelocity(Phaser.Math.Between(-200, 200), 20);
-        ball.allowGravity = false;
-    }
-}
-
-function hitball (player, ball)
-{
-    //error sound
-    this.errorSound.play();
-
-    this.physics.pause();
-
-    player.setTint(0xff0000);
-
-    player.anims.play('turn');
-
-    gameOver = true;
-
-}
-
-
 class GameScene extends Phaser.Scene {
     constructor() {
         super({ key: 'GameScene' });
@@ -172,12 +104,12 @@ class GameScene extends Phaser.Scene {
         gameOverTxt.setOrigin(0.5);
         gameOverTxt.setVisible(false);
 
-        // Scene restast Button aftor Game Over
-
+        // Scene restast Button after Game Over
+      
         restButton = this.add.rectangle(400, 370, 100, 30, 0x000000, 0.5);
         restButton.setInteractive();
         restButton.on('pointerdown',function(){
-            window.location.reload();
+        window.location.reload();
         },this);
         restButton.setVisible(false);
         restTxt = this.add.text(400, 360, 'restart',{
@@ -195,7 +127,7 @@ class GameScene extends Phaser.Scene {
         });
         button.setInteractive();
         button.on('pointerdown', function(){
-            this.scene.pause();
+            game.loop.sleep();
             this.sound.add('click').play();
         },this);
 
@@ -206,11 +138,11 @@ class GameScene extends Phaser.Scene {
         });
         button.setInteractive();
         button.on('pointerdown', function(){
-            this.scene.resume();
+            game.loop.wake();
             this.sound.add('click').play();
         },this);
 
-        //Back button (reload)
+        //Back button
         const backBG = this.add.rectangle(35, 580, 50, 20, 0x000000, 0.50);
 
         button =this.add.text(16, 572, 'Back',{
@@ -273,7 +205,6 @@ class GameScene extends Phaser.Scene {
         this.physics.add.overlap(player, coins, collectcoin, null, this);
 
         this.physics.add.collider(player, balls, hitball, null, this);
-
 
         }
         update (){

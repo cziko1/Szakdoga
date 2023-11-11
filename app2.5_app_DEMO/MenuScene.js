@@ -1,10 +1,3 @@
-let button;
-let title;
-let bgMusic;
-let settingBT;
-let controlBT;
-
-
 class MenuScene extends Phaser.Scene {
     constructor() {
         super({ key: 'MenuScene' });
@@ -37,7 +30,7 @@ class MenuScene extends Phaser.Scene {
         title.setOrigin(0.5);
         title.setShadow(2,2, '#333333', 2, false, true);
         
-        //start button
+        // Start button
         const startBT = this.add.rectangle(400,300, 200,50,0xff00ff, 0.30);
         startBT.setInteractive();
         startBT.on('pointerdown', function(){
@@ -49,7 +42,7 @@ class MenuScene extends Phaser.Scene {
             fontSize: '32px Arial',
             fill: '#ffffff'      
         });
-        button.setShadow(2,2, '#333333', 2, false, true); //text shadow
+        button.setShadow(2,2, '#333333', 2, false, true); // Text shadow
         button.setOrigin(0.5);
         button.setTint(0xff00ff, 0xffff00, 0x0000ff, 0xff0000)   
     
@@ -65,7 +58,7 @@ class MenuScene extends Phaser.Scene {
             fontSize: '32px Arial',
             fill: '#ffffff'
         });
-        button.setShadow(2,2, '#333333', 2, false, true); //text shadow
+        button.setShadow(2,2, '#333333', 2, false, true); // Text shadow
         button.setOrigin(0.5, -1.5);
         button.setTint(0xff00ff, 0xffff00, 0x0000ff, 0xff0000)   
     
@@ -83,7 +76,7 @@ class MenuScene extends Phaser.Scene {
             fill: '#ffffff'
         });
         button.setOrigin(0.5, -3.55);
-        button.setShadow(2,2, '#333333', 2, false, true); //text shadow
+        button.setShadow(2,2, '#333333', 2, false, true);  //Text shadow
         button.setTint(0xff00ff, 0xffff00, 0x0000ff, 0xff0000)  
     }
 
